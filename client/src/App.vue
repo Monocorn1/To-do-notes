@@ -9,6 +9,8 @@ export default {
       newTask: "",
       notes: [],
       newNote: "",
+      newNoteName: "",
+      noteNames: [],
     };
   },
   methods: {
@@ -20,10 +22,12 @@ export default {
       }
     },
     addNote() {
-      if (this.newNote == "") {
+      if (this.newNote == "" || this.newNoteName == "") {
       } else {
         this.notes.push(this.newNote);
         this.newNote = "";
+        this.noteNames.push(this.newNoteName);
+        this.newNoteName = "";
       }
     },
     taskDone() {},
@@ -39,10 +43,12 @@ export default {
         v-model="newTask"
         @keyup.enter="addTask()"
         class="taskInput"
+        placeholder="Task here:"
       ></CustomInput>
       <button @click="addTask()" class="mainButton">Add Task</button>
+      <h1>Tasks:</h1>
       <ul class="taskTable">
-        <li v-for="(task, index) in tasks" :key="index">
+        <li v-for="(task, index) in tasks" :key="index" class="oneTask">
           <span class="taskText">{{ task }}</span>
           <button class="buttonDone" @click="taskDone()">Done</button>
         </li>
@@ -56,12 +62,27 @@ export default {
         @keyup.enter="addNote()"
         class="noteInput"
         spellcheck="false"
+        placeholder="Note here:"
       ></textarea>
+      <input
+        v-model="newNoteName"
+        type="text"
+        name="noteName"
+        class="noteName"
+        placeholder="Note name here:"
+        @keyup.enter="addNote()"
+        maxlength="20"
+      />
       <button @click="addNote()" class="mainButton">Add Note</button>
+      <h2>Notes:</h2>
       <div class="noteBlock">
         <ul class="noteTable">
-          <li v-for="(note, index) in notes" :key="index" class="noteList">
-            <textarea class="noteText" spellcheck="false">{{ note }}</textarea>
+          <li
+            v-for="(noteName, index) in noteNames"
+            :key="index"
+            class="noteList"
+          >
+            <div class="noteText" spellcheck="false">{{ noteName }}</div>
           </li>
         </ul>
       </div>
